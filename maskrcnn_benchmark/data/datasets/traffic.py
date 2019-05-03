@@ -17,16 +17,10 @@ def _has_only_empty_bbox(anno):
 
 
 def has_valid_annotation(anno):
-    # if it's empty, there is no annotation
     if len(anno) == 0:
         return False
-    # if all boxes have close to zero area, there is no annotation
     if _has_only_empty_bbox(anno):
         return False
-    # keypoints task have a slight different critera for considering
-    # if an annotation is valid
-    if "keypoints" not in anno[0]:
-        return True
     return False
 
 
@@ -36,7 +30,7 @@ class TrafficDataset(Dataset):
         self.class_mapping = to_contiguous_class_mapping
         MASK = Image.open(os.path.join(root, 'mask.png'))
 
-        # crop mask
+        # Mask used to keep only visible roadbed
         tmp = np.array(MASK)
         data_points = np.argwhere(tmp)
         self.min_y, self.min_x = data_points.min(axis=0)
@@ -76,7 +70,7 @@ class TrafficDataset(Dataset):
 
         self.transforms = transforms
 
-        # Update bboxes
+        # Update bboxes to avoid coco-annotator bugs with conversion bb coordinates
         from tqdm import tqdm
         for k, v in tqdm(list(self.coco.anns.items())):
             rle = self.coco.annToRLE(v)
@@ -84,11 +78,6 @@ class TrafficDataset(Dataset):
             v['bbox'] = maskUtils.toBbox(rle)
             if sum(abs(before - v['bbox'])) > 1:
                 print(f"Changed {before}->{v['bbox']}")
-
-        print("TRAFFIC DATASET CLASSES MAPPING:")
-        print("FROM JSON TO MODEL: ", self.class_mapping)
-        print("FROM MODEL TO JSON: ", self.contiguous_category_id_to_json_id)
-        gc.collect()
 
     def __len__(self):
         return len(self.ids)
@@ -99,11 +88,8 @@ class TrafficDataset(Dataset):
         coco_idx = self.ids[idx]
         anno = self.coco.loadAnns(self.coco.getAnnIds([coco_idx]))
 
-        # filter crowd annotations
-        anno = [obj for obj in anno if obj["iscrowd"] == 0]
-
         boxes = [obj["bbox"] for obj in anno]
-        boxes = torch.as_tensor(boxes).reshape(-1, 4)  # guard against no boxes
+        boxes = torch.as_tensor(boxes).reshape(-1, 4)
         target = BoxList(boxes, img.size, mode="xywh").convert("xyxy")
 
         classes = [obj["category_id"] for obj in anno]

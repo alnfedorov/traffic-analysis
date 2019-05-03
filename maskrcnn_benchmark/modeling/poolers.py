@@ -121,7 +121,7 @@ class Pooler(nn.Module):
         return result
 
 
-class CascadePooler(Pooler):
+class AdaptiveFeaturePooling(Pooler):
     def __init__(self, output_size, scales, sampling_ratio):
         """
         Arguments:
@@ -169,7 +169,7 @@ def make_pooler(cfg, head_name):
     scales = cfg.MODEL[head_name].POOLER_SCALES
     sampling_ratio = cfg.MODEL[head_name].POOLER_SAMPLING_RATIO
     if cfg.MODEL.ROI_HEADS.USE_CASCADE_POOLING:
-        pooler = CascadePooler(
+        pooler = AdaptiveFeaturePooling(
             output_size=(resolution, resolution),
             scales=scales,
             sampling_ratio=sampling_ratio,

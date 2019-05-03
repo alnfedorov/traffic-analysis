@@ -415,7 +415,7 @@ _C.SOLVER.WARMUP_METHOD = "linear"
 _C.SOLVER.CHECKPOINT_PERIOD = 2500
 
 
-# Finetuning parameters
+# Fine tuning parameters
 _C.SOLVER.WARMUP_LAYERS = ("",)
 
 # Number of images per batch

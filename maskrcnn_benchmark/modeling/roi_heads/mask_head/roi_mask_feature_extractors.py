@@ -4,7 +4,7 @@ from torch.nn import functional as F
 
 from ..box_head.roi_box_feature_extractors import ResNet50Conv5ROIFeatureExtractor
 from maskrcnn_benchmark.modeling import registry
-from maskrcnn_benchmark.modeling.poolers import Pooler, CascadePooler
+from maskrcnn_benchmark.modeling.poolers import Pooler, AdaptiveFeaturePooling
 from maskrcnn_benchmark.modeling.make_layers import make_conv3x3
 
 
@@ -33,7 +33,7 @@ class MaskRCNNFPNFeatureExtractor(nn.Module):
         sampling_ratio = cfg.MODEL.ROI_MASK_HEAD.POOLER_SAMPLING_RATIO
 
         if cfg.MODEL.ROI_HEADS.USE_CASCADE_POOLING:
-            pooler = CascadePooler(
+            pooler = AdaptiveFeaturePooling(
                 output_size=(resolution, resolution),
                 scales=scales,
                 sampling_ratio=sampling_ratio,

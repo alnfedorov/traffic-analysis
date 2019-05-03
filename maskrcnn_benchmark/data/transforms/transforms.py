@@ -8,7 +8,7 @@ from PIL import Image
 from torchvision.transforms import functional as F
 
 
-class MedianBlur(object):
+class HorizontalSegmentMedianBlur(object):
     def __init__(self, prob=0.5):
         self.prob = prob
 
@@ -25,7 +25,6 @@ class MedianBlur(object):
                 # Same as on the video
                 ksize = random.choice([5, 7, 9])
                 ksize = min(ksize, h)
-                # print(y, h, ksize)
                 image[y:y+h, :] = cv2.blur(image[y:y+h,:], (ksize, ksize))
             else:
                 image = cv2.blur(image, (5, 5)) # Blur everything
@@ -47,22 +46,24 @@ class ContrastAdjust(object):
 
 
 class BrightnessAdjust(object):
-    def __init__(self, prob=0.5):
+    def __init__(self, prob=0.5, factor=(0.25, 0.75)):
         self.prob = prob
+        self.factor = factor
 
     def __call__(self, image, target):
         if self.prob == 0:
             return image, target
         if random.random() < self.prob:
-            factor = np.random.uniform(0.25, 0.75)
+            factor = np.random.uniform(self.factor)
             image = F.adjust_brightness(image, factor)
         return image, target
 
 
 class InstanceMasking(object):
-    def __init__(self, prob=0.5, max_area_hidden=0.45):
+    def __init__(self, prob=0.5, min_area_to_mask=40, max_area_hidden=0.45):
         self.prob = prob
         self.max_area_hidden = max_area_hidden
+        self.min_area_to_mask = min_area_to_mask
 
     def _line_mask(self, mask, x, y, w, h):
         if random.random() < 0.5:   # horizontal line
@@ -113,7 +114,7 @@ class InstanceMasking(object):
 
             x, y, w, h = int(x), int(y), int(w), int(h)
 
-            if w*h / mask.size < 5e-4:
+            if w*h < self.min_area_to_mask:
                 continue
 
             if random.random() >= self.prob:
@@ -127,10 +128,11 @@ class InstanceMasking(object):
             except:
                 continue
         mask = mask == 1
-        if random.random() < 0.7:
-            distorted = cv2.blur(image, (7, 7))
+        if random.random() < 0.5:
+            distorted = cv2.blur(image, (7, 7))  # mask by bluring
         else:
-            distorted = np.ones_like(image) * (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+            distorted = np.ones_like(image) * \
+                        (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) # mask by random colors
         image[mask] = distorted[mask]
 
         image = Image.fromarray(image, mode)
@@ -189,7 +191,6 @@ class Resize(object):
         size = self.get_size(image.size)
         image = F.resize(image, size)
         if target:
-            print("REMOVE CHECK IN RESIZE")
             target = target.resize(image.size)
         return image, target
 
