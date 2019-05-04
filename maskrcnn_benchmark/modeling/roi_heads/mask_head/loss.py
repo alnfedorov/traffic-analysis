@@ -139,7 +139,13 @@ def make_roi_mask_loss_evaluator(cfg):
     )
 
     if cfg.MODEL.ROI_MASK_HEAD.USE_FOCAL:
+        print("USING FOCAL LOSS FOR MASK HEAD")
         raise NotImplementedError()
+        from maskrcnn_benchmark.modeling.rpn.retinanet.loss import SigmoidFocalLoss
+        loss_func = SigmoidFocalLoss(
+            cfg.MODEL.ROI_MASK_HEAD.FOCAL.LOSS_GAMMA, cfg.MODEL.ROI_MASK_HEAD.FOCAL.LOSS_ALPHA
+        )
+
     else:
         loss_func = F.binary_cross_entropy_with_logits
 

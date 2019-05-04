@@ -5,7 +5,7 @@ from torch.nn import functional as F
 
 from maskrcnn_benchmark.modeling import registry
 from maskrcnn_benchmark.modeling.backbone import resnet
-from maskrcnn_benchmark.modeling.poolers import Pooler, AdaptiveFeaturePooling
+from maskrcnn_benchmark.modeling.poolers import Pooler, CascadePooler
 from maskrcnn_benchmark.modeling.make_layers import group_norm
 from maskrcnn_benchmark.modeling.make_layers import make_fc
 
@@ -18,18 +18,11 @@ class ResNet50Conv5ROIFeatureExtractor(nn.Module):
         resolution = config.MODEL.ROI_BOX_HEAD.POOLER_RESOLUTION
         scales = config.MODEL.ROI_BOX_HEAD.POOLER_SCALES
         sampling_ratio = config.MODEL.ROI_BOX_HEAD.POOLER_SAMPLING_RATIO
-        if config.MODEL.ROI_HEADS.USE_CASCADE_POOLING:
-            pooler = AdaptiveFeaturePooling(
-                output_size=(resolution, resolution),
-                scales=scales,
-                sampling_ratio=sampling_ratio,
-            )
-        else:
-            pooler = Pooler(
-                output_size=(resolution, resolution),
-                scales=scales,
-                sampling_ratio=sampling_ratio,
-            )
+        pooler = Pooler(
+            output_size=(resolution, resolution),
+            scales=scales,
+            sampling_ratio=sampling_ratio,
+        )
 
         stage = resnet.StageSpec(index=4, block_count=3, return_features=False)
         head = resnet.ResNetHead(
@@ -67,7 +60,7 @@ class FPN2MLPFeatureExtractor(nn.Module):
         sampling_ratio = cfg.MODEL.ROI_BOX_HEAD.POOLER_SAMPLING_RATIO
 
         if cfg.MODEL.ROI_HEADS.USE_CASCADE_POOLING:
-            pooler = AdaptiveFeaturePooling(
+            pooler = CascadePooler(
                 output_size=(resolution, resolution),
                 scales=scales,
                 sampling_ratio=sampling_ratio,
@@ -109,18 +102,11 @@ class FPNXconv1fcFeatureExtractor(nn.Module):
         resolution = cfg.MODEL.ROI_BOX_HEAD.POOLER_RESOLUTION
         scales = cfg.MODEL.ROI_BOX_HEAD.POOLER_SCALES
         sampling_ratio = cfg.MODEL.ROI_BOX_HEAD.POOLER_SAMPLING_RATIO
-        if cfg.MODEL.ROI_HEADS.USE_CASCADE_POOLING:
-            pooler = AdaptiveFeaturePooling(
-                output_size=(resolution, resolution),
-                scales=scales,
-                sampling_ratio=sampling_ratio,
-            )
-        else:
-            pooler = Pooler(
-                output_size=(resolution, resolution),
-                scales=scales,
-                sampling_ratio=sampling_ratio,
-            )
+        pooler = Pooler(
+            output_size=(resolution, resolution),
+            scales=scales,
+            sampling_ratio=sampling_ratio,
+        )
         self.pooler = pooler
 
         use_gn = cfg.MODEL.ROI_BOX_HEAD.USE_GN

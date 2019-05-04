@@ -4,3 +4,6 @@ cython
 matplotlib
 tqdm
 opencv-python
+filterpy
+scikit-learn
+numpy

@@ -1,4 +1,5 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# Copyright (c) Aleksandr Fedorov. Added warmup layers pretraining
 import datetime
 import logging
 import time
@@ -34,7 +35,8 @@ def reduce_loss_dict(loss_dict):
         reduced_losses = {k: v for k, v in zip(loss_names, all_losses)}
     return reduced_losses
 
-def travel_model(model, hook):
+
+def freeze_modules(model, hook):
     hooked = []
     for name, param in dict(model.named_parameters()).items():
         if hook(name):
@@ -43,6 +45,7 @@ def travel_model(model, hook):
         else:
             param.requires_grad = False
     return hooked
+
 
 def do_train(
     model,
@@ -67,18 +70,18 @@ def do_train(
 
     NEED_UNFREEZE = False
     if start_iter < warmup_iters and len(warmup_layers) != 0:
-        l = travel_model(model, lambda x: x in warmup_layers)
-        print("Warmup layers are ", l)
+        l = freeze_modules(model, lambda x: x in warmup_layers)
+        logger.info(f"Warmup layers are {l}")
         NEED_UNFREEZE = True
 
     for iteration, (images, targets, _) in enumerate(data_loader, start_iter):
         if iteration > warmup_iters and NEED_UNFREEZE:
-            l = travel_model(model, lambda x: True)
-            print("Training layers are ", l)
+            l = freeze_modules(model, lambda x: True)
+            logger.info(f"Train layer {l}")
             NEED_UNFREEZE = False
 
         # Clear cuda cache.
-        # torch.cuda.empty_cache()  # TODO check if it helps/
+        # torch.cuda.empty_cache()  # TODO check if it helps
 
         data_time = time.time() - end
         iteration = iteration + 1

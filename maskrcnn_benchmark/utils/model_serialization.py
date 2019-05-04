@@ -17,7 +17,7 @@ def align_and_update_state_dicts(model_state_dict, loaded_state_dict):
     For that, we look for each model weight, look among all loaded keys if there is one
     that is a suffix of the current weight name, and use it if that's the case.
     If multiple matches exist, take the one with longest size
-    of the corresponding name. For example, for the same model as before, the pretrained
+    of the corresponding name. For example, for the same model as before, the COCOPretrained
     weight file can contain both res2.conv1.weight, as well as conv1.weight. In this case,
     we want to match backbone[0].body.conv1.weight to conv1.weight, and
     backbone[0].body.res2.conv1.weight to res2.conv1.weight.

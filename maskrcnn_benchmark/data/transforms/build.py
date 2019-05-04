@@ -1,4 +1,5 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# Copyright (c) Aleksandr Fedorov. Blur, brightness, contrast and instance masking augmentations.
 from . import transforms as T
 
 
@@ -6,7 +7,7 @@ def build_transforms(cfg, is_train=True):
     if is_train:
         min_size = cfg.INPUT.MIN_SIZE_TRAIN
         max_size = cfg.INPUT.MAX_SIZE_TRAIN
-        flip_prob = 0.5
+        flip_prob = 0.5  # cfg.INPUT.FLIP_PROB_TRAIN
         brightness_prob = 0.75
         contrast_prob = 0.75
         instance_masking_prob = 0.75
@@ -33,7 +34,7 @@ def build_transforms(cfg, is_train=True):
             T.BrightnessAdjust(brightness_prob),
             T.ContrastAdjust(contrast_prob),
             T.InstanceMasking(instance_masking_prob),
-            T.HorizontalSegmentMedianBlur(blur_prob),
+            T.MedianBlur(blur_prob),
             T.ToTensor(),
             normalize_transform,
         ]

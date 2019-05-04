@@ -1,4 +1,5 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# Copyright (c) Aleksandr Fedorov. New fields for Cascade pooling, focal loss
 import os
 
 from yacs.config import CfgNode as CN
@@ -415,7 +416,7 @@ _C.SOLVER.WARMUP_METHOD = "linear"
 _C.SOLVER.CHECKPOINT_PERIOD = 2500
 
 
-# Fine tuning parameters
+# Finetuning parameters
 _C.SOLVER.WARMUP_LAYERS = ("",)
 
 # Number of images per batch

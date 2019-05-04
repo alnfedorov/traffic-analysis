@@ -21,7 +21,7 @@ def has_valid_annotation(anno):
         return False
     if _has_only_empty_bbox(anno):
         return False
-    return False
+    return True
 
 
 class TrafficDataset(Dataset):
