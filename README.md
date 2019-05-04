@@ -3,7 +3,7 @@ We used official
 [Detectron realization](https://github.com/facebookresearch/maskrcnn-benchmark/tree/f917a555bc422ed5e06a402e739da0e21b00d0b5) 
 from Facebook as a start point. Here is an example of how implemented system works at [day](examples/day.mp4) and at 
 [night](examples/night.mp4)(better to download and open in local video player). 
-If you are interest in dataset and/or our trained models, please email us(canxes@mail.ru).
+If you are interest in dataset and/or our trained models, please email us(canxes@mail.ru, nikolskaiaki@susu.ru).
 
 One should not consider provided sources as an off-the shelf implementation. It is not a production-ready solution and 
 still only a draft of what can be achieved with modern convolutional networks in the field of traffic analysis. 
