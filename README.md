@@ -1,3 +1,6 @@
+![example](examples/day.png)
+
+
 This repository contains all source codes relevant to the NAME research paper. 
 We used official 
 [Detectron realization](https://github.com/facebookresearch/maskrcnn-benchmark/tree/f917a555bc422ed5e06a402e739da0e21b00d0b5) 
