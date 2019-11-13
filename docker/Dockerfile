@@ -20,18 +20,3 @@ RUN git clone https://github.com/alnfedorov/traffic-analysis \
 RUN git clone https://github.com/cocodataset/cocoapi.git \
  && cd cocoapi/PythonAPI \
  && python3.6 setup.py build_ext install
-
-
-
-# SSH server
-ARG public_key
-EXPOSE 22
-
-RUN apt-get update && apt-get install -y openssh-server \
-    && mkdir -p /var/run/sshd \
-    && mkdir -p ~/.ssh \
-    && chmod 700 ~/.ssh \
-    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin without-password/' /etc/ssh/sshd_config \
-    && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config \
-    && echo ${public_key} >> ~/.ssh/authorized_keys \
-    && echo "service ssh restart" >> ~/.bashrc  # hard-fix
