@@ -18,7 +18,7 @@ LOGIN = ""
 PASSWORD = ""
 
 DATE = "2019-04-24"
-TARGET_FOLDER = f"/home/fedorov/detection/data/test-statistics/{DATE}"
+TARGET_FOLDER = f"/traffic-analysis/data/test-statistics/{DATE}"
 IMAGE_MASK = "traffic/mask.png"
 TARGET_WIDTH, TARGET_HEIGHT = 1280, 512
 

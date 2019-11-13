@@ -2,7 +2,7 @@ import os
 
 
 class DatasetCatalog(object):
-    DATA_DIR = "/home/fedorov/detection/data/merged"
+    DATA_DIR = "/traffic-analysis/data/merged"
     DATASETS = {
         "traffic_train": {
             "img_dir": "train",

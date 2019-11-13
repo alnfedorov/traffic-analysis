@@ -5,7 +5,9 @@ import colorsys
 from matplotlib import patches
 
 
-def random_colors(N, bright=True):
+def random_colors(N, bright=True, seed=123):
+    if seed is not None:
+        random.seed(seed)
     brightness = 1.0 if bright else 0.7
     hsv = [(i / N, 1, brightness) for i in range(N)]
     colors = list(map(lambda c: colorsys.hsv_to_rgb(*c), hsv))
@@ -50,8 +52,6 @@ def display_instances_cv2(image, boxlist, class_names, colors=None):
 
 def display_instances(image, boxlist, class_names, ax, colors=None, draw_masks=True):
     N = len(boxlist)
-    if colors is None:
-        colors = random_colors(N)
     assert len(colors) == N
 
     height, width = image.shape[:2]

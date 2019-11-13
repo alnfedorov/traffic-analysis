@@ -13,3 +13,6 @@ torch==1.1.0
 torchvision==0.3.0
 tqdm==4.32.2
 yacs==0.1.6
+numba==0.46.0
+scikit-learn==0.20.4
+filterpy==1.4.5
