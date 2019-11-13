@@ -148,9 +148,18 @@ def paste_mask_in_image(mask, box, im_h, im_w, thresh=0.5, padding=1):
     y_0 = max(box[1], 0)
     y_1 = min(box[3] + 1, im_h)
 
-    im_mask[y_0:y_1, x_0:x_1] = mask[
-        (y_0 - box[1]) : (y_1 - box[1]), (x_0 - box[0]) : (x_1 - box[0])
-    ]
+    if x_0 == x_1 or y_0 == y_1:
+        return im_mask
+    try:
+        im_mask[y_0:y_1, x_0:x_1] = mask[
+            (y_0 - box[1]) : (y_1 - box[1]), (x_0 - box[0]) : (x_1 - box[0])
+        ]
+    except:
+        print("Error in paste_mask_in_image.")
+        print("Shape: ", im_mask[y_0:y_1, x_0:x_1].shape)
+        print("Box coordinates: ", mask[(y_0 - box[1]) : (y_1 - box[1]),
+                                   (x_0 - box[0]) : (x_1 - box[0])].shape)
+        print("Skip mask...")
     return im_mask
 
 
