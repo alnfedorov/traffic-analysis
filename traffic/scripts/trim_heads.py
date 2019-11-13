@@ -4,7 +4,7 @@
 
 import torch
 
-FILE = "/home/fedorov/detection/maskrcnn-benchmark/traffic/models/COCOPretrained/R-50-GN_no_head.pth"
+FILE = "/traffic-analysis/traffic/models/COCOPretrained/R-50-GN_no_head.pth"
 state_dict = torch.load(FILE)
 print(state_dict.keys())
 
