@@ -1,3 +1,4 @@
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.pth filter=lfs diff=lfs merge=lfs -text
+traffic/models/R-50-FPN-1280x512-CustomAnchors-FocalLoss-CascadeMax/model_final.pth filter=lfs diff=lfs merge=lfs -text
