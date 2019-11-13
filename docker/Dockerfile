@@ -6,7 +6,7 @@ FROM nvidia/cuda:${CUDA}-cudnn${CUDNN}-devel-ubuntu18.04
 # dependencies
 RUN apt-get update -y \
  && apt-get install -y apt-utils git curl ca-certificates bzip2 cmake tree htop bmon iotop g++ \
-                       ibglib2.0-0 libsm6 libxext6 libxrender-dev python3 python3-pip \
+                       ibglib2.0-0 libsm6 libxext6 libxrender-dev python3 python3-pip git-lfs \
  && rm -rf /var/lib/apt/lists/*
 
 
