@@ -13,6 +13,7 @@ RUN apt-get update -y \
 ENV FORCE_CUDA="1"
 RUN git clone https://github.com/alnfedorov/traffic-analysis \
     && cd traffic-analysis \
+    && git-lfs pull \
     && python3.6 -m pip install -r requirements.txt \
     && python3.6 setup.py build develop
 
