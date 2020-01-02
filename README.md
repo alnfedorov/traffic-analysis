@@ -57,4 +57,4 @@ python3.6 traffic/scripts/plot_tracklets.py --video-file="/traffic-analysis/exam
                                             --tracklets="/inference/tracklets.pth" \
                                             --save-to="/inference"
 ```  
-Please note that GitHub has severe bandwidth restrictions for files that are managed via git-lfs (model and video fragment). So, if docker image build is failing due to the bandwidth limit exceeded(or something similar), try to clone the repo, amend Dockerfile appropriately and work with your copy. It should set the limits to zero.
+Please note that GitHub has severe bandwidth restrictions for files that are managed via git-lfs (model and video fragment). So, if docker image build is failing due to the bandwidth limit exceeded(or something similar), try to download lfs files manually from [gdrive](https://drive.google.com/file/d/1MjsuofZRDczkcO687nArADSbYLPikhZh/view?usp=sharing), amend Dockerfile appropriately and work with local copy.
