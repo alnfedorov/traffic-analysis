@@ -5,8 +5,9 @@ This repository contains all source codes relevant to the "Detection and trackin
 We used official 
 [Detectron realization](https://github.com/facebookresearch/maskrcnn-benchmark/tree/f917a555bc422ed5e06a402e739da0e21b00d0b5) 
 from Facebook as a start point. Here is an example of how implemented system works at [day](examples/day.mp4) and at 
-[night](examples/night.mp4)(better to download and open in local video player). 
-If you are interest in the dataset and/or our trained models, please email us(canxes@mail.ru, nikolskaiaki@susu.ru).
+[night](examples/night.mp4)(better to download and open in local video player).  
+
+The gathered dataset can be found [here(gdrive)](https://drive.google.com/file/d/1L9cPveRU9d8QYOYbP_NImV1Kq0eNO68h/view?usp=sharing). Labels are stored in the COCO format.  
 
 One should not consider provided sources as an off-the shelf implementation. It is not a production-ready solution and 
 still only a draft of what can be achieved with modern convolutional networks in the field of traffic analysis. 
@@ -55,4 +56,5 @@ python3.6 tracking/track_predicts.py --predicts-file="/inference/predicts.pth" \
 python3.6 traffic/scripts/plot_tracklets.py --video-file="/traffic-analysis/examples/night_raw_example.mp4" \
                                             --tracklets="/inference/tracklets.pth" \
                                             --save-to="/inference"
-```
+```  
+Please note that GitHub has severe bandwidth restrictions for files that are managed via git-lfs (model and video fragment). So, if docker image build is failing due to the bandwidth limit exceeded(or something similar), try to clone the repo, amend Dockerfile appropriately and work with your copy. It should set the limits to zero.
