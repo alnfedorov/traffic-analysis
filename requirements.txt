@@ -7,7 +7,7 @@ pyaml==19.4.1
 pygobject==3.26.1
 pyparsing==2.4.5
 python-dateutil==2.8.0
-PyYAML==5.1.1
+PyYAML==5.4
 six==1.11.0
 torch==1.1.0
 torchvision==0.3.0
