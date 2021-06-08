@@ -2,7 +2,7 @@ Cython==0.29.12
 matplotlib==3.1.1
 numpy==1.16.4
 opencv-python==4.1.0.25
-Pillow==6.2.0
+Pillow==8.2.0
 pyaml==19.4.1
 pygobject==3.26.1
 pyparsing==2.4.5
